@@ -1,6 +1,6 @@
 package server
 
-func RollDice(_ int) []int {
-	roll := make([]int, 6)
+func RollDice(dice int) []int {
+	roll := make([]int, dice)
 	return roll
 }
