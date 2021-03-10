@@ -1,6 +1,8 @@
 package server_test
 
-import "testing"
+import (
+	"testing"
+)
 import "server"
 
 func TestRollDice(t *testing.T) {
