@@ -17,3 +17,7 @@ Each action called from the client, using the provided URL, returns the same res
 The server is responsible for parsing client requests, game logic, and keeping track of valid actions.
 
 Now that this structure is decided I can start coding the different pieces of the server. I plan on coding the rules of the game next. After that will be building the web server and designing the ability to process and generate actions. To wrap everything up I will build a simple UI that can be served via HTML from the web server. I will use Flutter for the UI.
+
+### March 11
+
+Found some time tonight to work on the scoring algorithm. Started with handling ones and am beginning to implement sets of three. Still not sure on the right structure for sets of three. There is common logic which suggests an opportunity for abstraction, but it has not come to me yet. I will keep implementing the algorithm and refactoring and see if the abstraction pops into focus as I move forward.
