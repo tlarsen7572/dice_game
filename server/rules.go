@@ -32,7 +32,14 @@ func Score(roll []int) ScoredRoll {
 	for index, die := range roll {
 		if die == 1 {
 			ones++
+			score += 100
 			scoringDice = append(scoringDice, index)
+			if ones%3 == 0 {
+				score += 700
+			}
+			if ones%6 == 0 {
+				return ScoredRoll{longGameScore, scoringDice}
+			}
 		}
 		if die == 2 {
 			twos++
@@ -42,13 +49,5 @@ func Score(roll []int) ScoredRoll {
 			}
 		}
 	}
-	if ones == 6 {
-		return ScoredRoll{longGameScore, scoringDice}
-	}
-	setsOfThree := ones / 3
-	onesRemainder := ones % 3
-	score += 1000 * setsOfThree
-	score += onesRemainder * 100
-
 	return ScoredRoll{score, scoringDice}
 }
