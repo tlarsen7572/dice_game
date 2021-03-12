@@ -20,6 +20,18 @@ func RollDice(number int) []int {
 	return roll
 }
 
+func rollEquals(roll []int, expected []int) bool {
+	if len(roll) != len(expected) {
+		return false
+	}
+	for index, value := range roll {
+		if value != expected[index] {
+			return false
+		}
+	}
+	return true
+}
+
 type ScoredRoll struct {
 	Score       int
 	ScoringDice []int
@@ -32,6 +44,12 @@ type scoreCalculator struct {
 }
 
 func (c *scoreCalculator) calculateDice(roll []int) {
+	if rollEquals(roll, []int{1, 2, 3, 4, 5, 6}) {
+		c.ScoringDice = []int{0, 1, 2, 3, 4, 5}
+		c.Score = 1000
+		return
+	}
+
 	for index, die := range roll {
 		switch die {
 		case 1:

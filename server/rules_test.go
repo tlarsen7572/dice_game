@@ -135,3 +135,11 @@ func TestScoreFourFives(t *testing.T) {
 		t.Fatalf(`expected score of 550 and scoring dice of [0 1 2 3] but got %v and %v`, result.Score, result.ScoringDice)
 	}
 }
+
+func TestStraight(t *testing.T) {
+	roll := []int{1, 2, 3, 4, 5, 6}
+	result := server.Score(roll)
+	if result.Score != 1000 || len(result.ScoringDice) != 6 {
+		t.Fatalf(`expected score of 1000 and scoring dice of [0 1 2 3 4 5] but got %v and %v`, result.Score, result.ScoringDice)
+	}
+}
