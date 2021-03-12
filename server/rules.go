@@ -8,6 +8,8 @@ import (
 
 var r = rand.New(rand.NewSource(time.Now().UTC().UnixNano()))
 
+const longGameScore = 10000
+
 func RollDice(number int) []int {
 	roll := make([]int, number)
 	for _, index := range roll {
@@ -29,7 +31,7 @@ func Score(roll []int) (int, []int) {
 	}
 	if ones >= 3 {
 		if ones == 6 {
-			return 10000, scoringDice
+			return longGameScore, scoringDice
 		}
 		score += 1000
 		score += (ones - 3) * 100
