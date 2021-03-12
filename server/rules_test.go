@@ -95,3 +95,11 @@ func TestScoreSixOnes(t *testing.T) {
 		t.Fatalf(`expected score of max int64 and scoring dice of [0 1 2 3 4 5] but got %v and %v`, score, scoringDice)
 	}
 }
+
+func TestScoreThreeTwos(t *testing.T) {
+	roll := []int{2, 2, 2}
+	score, scoringDice := server.Score(roll)
+	if score != 200 || len(scoringDice) != 3 {
+		t.Fatalf(`expected score of 200 and scoring dice of [0 1 2] but got %v and %v`, score, scoringDice)
+	}
+}
