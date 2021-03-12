@@ -1,7 +1,6 @@
 package server
 
 import (
-	"math"
 	"math/rand"
 	"sort"
 	"time"
@@ -30,7 +29,7 @@ func Score(roll []int) (int, []int) {
 	}
 	if ones >= 3 {
 		if ones == 6 {
-			return math.MaxInt64, scoringDice
+			return 10000, scoringDice
 		}
 		score += 1000
 		score += (ones - 3) * 100

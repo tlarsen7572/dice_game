@@ -1,7 +1,6 @@
 package server_test
 
 import (
-	"math"
 	"testing"
 )
 import "server"
@@ -92,7 +91,7 @@ func TestScoreFourOnes(t *testing.T) {
 func TestScoreSixOnes(t *testing.T) {
 	roll := []int{1, 1, 1, 1, 1, 1}
 	score, scoringDice := server.Score(roll)
-	if score != math.MaxInt64 || len(scoringDice) != 6 {
+	if score != 10000 || len(scoringDice) != 6 {
 		t.Fatalf(`expected score of max int64 and scoring dice of [0 1 2 3 4 5] but got %v and %v`, score, scoringDice)
 	}
 }
