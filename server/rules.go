@@ -7,10 +7,6 @@ import (
 	"time"
 )
 
-var r = rand.New(rand.NewSource(time.Now().UTC().UnixNano()))
-
-const longGameScore = 10000
-
 func RollDice(number int) []int {
 	roll := make([]int, number)
 	for _, index := range roll {
@@ -19,6 +15,17 @@ func RollDice(number int) []int {
 	sort.Ints(roll)
 	return roll
 }
+
+func Score(roll []int) ScoredRoll {
+	calculator := &scoreCalculator{DiceValues: map[int]int{}}
+	calculator.calculateDice(roll)
+	return calculator.scoredRoll()
+}
+
+var r = rand.New(rand.NewSource(time.Now().UTC().UnixNano()))
+
+const longGameScore = 10000
+const allDice = 6
 
 func rollEquals(roll []int, expected []int) bool {
 	if len(roll) != len(expected) {
@@ -33,7 +40,7 @@ func rollEquals(roll []int, expected []int) bool {
 }
 
 func rollIsThreeStraights(roll []int) bool {
-	if len(roll) != 6 {
+	if len(roll) != allDice {
 		return false
 	}
 	if roll[0] == roll[1] &&
@@ -89,10 +96,10 @@ func (c *scoreCalculator) processOne(index int) {
 	c.Score += 100
 	c.ScoringDice = append(c.ScoringDice, index)
 	if ones%3 == 0 {
-		c.Score += 700
+		c.Score += 700 // 700 + previous 3 values of 100 = 1000, the value of a triplet of ones
 	}
 	if ones%6 == 0 {
-		c.Score = longGameScore
+		c.Score = longGameScore // make score maximum possible to force the game to end
 		return
 	}
 }
@@ -103,7 +110,7 @@ func (c *scoreCalculator) processFive(index int) {
 	c.Score += 50
 	c.ScoringDice = append(c.ScoringDice, index)
 	if fives%3 == 0 {
-		c.Score += 350
+		c.Score += 350 // 350 + previous 3 values of 150 = 500, the value of a triplet of fives
 	}
 }
 
@@ -121,10 +128,4 @@ func (c *scoreCalculator) scoredRoll() ScoredRoll {
 		Score:       c.Score,
 		ScoringDice: c.ScoringDice,
 	}
-}
-
-func Score(roll []int) ScoredRoll {
-	calculator := &scoreCalculator{DiceValues: map[int]int{}}
-	calculator.calculateDice(roll)
-	return calculator.scoredRoll()
 }
