@@ -21,3 +21,7 @@ Now that this structure is decided I can start coding the different pieces of th
 ### March 11
 
 Found some time tonight to work on the scoring algorithm. Started with handling ones and am beginning to implement sets of three. Still not sure on the right structure for sets of three. There is common logic which suggests an opportunity for abstraction, but it has not come to me yet. I will keep implementing the algorithm and refactoring and see if the abstraction pops into focus as I move forward.
+
+### March 12
+
+Spent about an hour wrapping up the scoring logic. All of my tests pass and I cannot think of any further edge cases at this time. Next up will be coding the turn logic, which should mean building up a game state object. The game object should only concern itself with turns. I want to keep the REST API logic completely separate, which means generating the self-discovery URLs will be separated out from the game.
