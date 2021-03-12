@@ -63,3 +63,11 @@ func TestScoreOneWithTwoDice(t *testing.T) {
 		t.Fatalf(`expected score of 100 and scoring dice of [1] but got %v and %v`, score, scoringDice)
 	}
 }
+
+func TestScoreMultipleOnes(t *testing.T) {
+	roll := []int{1, 1}
+	score, scoringDice := server.Score(roll)
+	if score != 200 || len(scoringDice) != 2 || scoringDice[0] != 0 || scoringDice[1] != 1 {
+		t.Fatalf(`expected score of 200 and scoring dice of [0, 1] but got %v and %v`, score, scoringDice)
+	}
+}
