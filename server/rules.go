@@ -29,15 +29,12 @@ func Score(roll []int) (int, []int) {
 			scoringDice = append(scoringDice, index)
 		}
 	}
-	if ones >= 3 {
-		if ones == 6 {
-			return longGameScore, scoringDice
-		}
-		score += 1000
-		score += (ones - 3) * 100
-	} else {
-		score += ones * 100
+	if ones == 6 {
+		return longGameScore, scoringDice
 	}
-
+	setsOfThree := ones / 3
+	remainder := ones % 3
+	score += 1000 * setsOfThree
+	score += remainder * 100
 	return score, scoringDice
 }
