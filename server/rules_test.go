@@ -143,3 +143,28 @@ func TestStraight(t *testing.T) {
 		t.Fatalf(`expected score of 1000 and scoring dice of [0 1 2 3 4 5] but got %v and %v`, result.Score, result.ScoringDice)
 	}
 }
+
+func TestThreePairs(t *testing.T) {
+	roll := []int{1, 1, 2, 2, 3, 3}
+	result := server.Score(roll)
+	if result.Score != 1000 || len(result.ScoringDice) != 6 {
+		t.Fatalf(`expected score of 1000 and scoring dice of [0 1 2 3 4 5] but got %v and %v`, result.Score, result.ScoringDice)
+	}
+}
+
+func TestRandomRolls(t *testing.T) {
+	result := server.Score([]int{1, 2, 3, 4, 4, 6})
+	if result.Score != 100 || len(result.ScoringDice) != 1 {
+		t.Fatalf(`expected score of 100 and scoring dice of [0] but got %v and %v`, result.Score, result.ScoringDice)
+	}
+
+	result = server.Score([]int{1, 1, 1, 5, 5, 5})
+	if result.Score != 1500 || len(result.ScoringDice) != 6 {
+		t.Fatalf(`expected score of 1500 and scoring dice of [0 1 2 3 4 5] but got %v and %v`, result.Score, result.ScoringDice)
+	}
+
+	result = server.Score([]int{1, 2, 2, 6, 6, 6})
+	if result.Score != 700 || len(result.ScoringDice) != 4 {
+		t.Fatalf(`expected score of 700 and scoring dice of [0 3 4 5] but got %v and %v`, result.Score, result.ScoringDice)
+	}
+}

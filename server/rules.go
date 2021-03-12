@@ -32,6 +32,20 @@ func rollEquals(roll []int, expected []int) bool {
 	return true
 }
 
+func rollIsThreeStraights(roll []int) bool {
+	if len(roll) != 6 {
+		return false
+	}
+	if roll[0] == roll[1] &&
+		roll[2] == roll[3] &&
+		roll[4] == roll[5] &&
+		roll[0] != roll[2] &&
+		roll[0] != roll[4] {
+		return true
+	}
+	return false
+}
+
 type ScoredRoll struct {
 	Score       int
 	ScoringDice []int
@@ -45,6 +59,11 @@ type scoreCalculator struct {
 
 func (c *scoreCalculator) calculateDice(roll []int) {
 	if rollEquals(roll, []int{1, 2, 3, 4, 5, 6}) {
+		c.ScoringDice = []int{0, 1, 2, 3, 4, 5}
+		c.Score = 1000
+		return
+	}
+	if rollIsThreeStraights(roll) {
 		c.ScoringDice = []int{0, 1, 2, 3, 4, 5}
 		c.Score = 1000
 		return
