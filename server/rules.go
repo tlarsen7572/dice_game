@@ -18,13 +18,21 @@ func RollDice(number int) []int {
 }
 
 func Score(roll []int) (int, []int) {
+	ones := 0
 	score := 0
 	scoringDice := []int{}
 	for index, die := range roll {
 		if die == 1 {
-			score += 100
+			ones++
 			scoringDice = append(scoringDice, index)
 		}
 	}
+	if ones >= 3 {
+		score += 1000
+		score += (ones - 3) * 100
+	} else {
+		score += ones * 100
+	}
+
 	return score, scoringDice
 }
