@@ -36,6 +36,8 @@ func (c *scoreCalculator) calculateDice(roll []int) {
 		switch die {
 		case 1:
 			c.processOne(index)
+		case 5:
+			c.processFive(index)
 		case 2, 3, 4, 6:
 			c.processOther(index, die)
 		default:
@@ -55,6 +57,16 @@ func (c *scoreCalculator) processOne(index int) {
 	if ones%6 == 0 {
 		c.Score = longGameScore
 		return
+	}
+}
+
+func (c *scoreCalculator) processFive(index int) {
+	c.DiceValues[5]++
+	fives := c.DiceValues[5]
+	c.Score += 50
+	c.ScoringDice = append(c.ScoringDice, index)
+	if fives%3 == 0 {
+		c.Score += 350
 	}
 }
 

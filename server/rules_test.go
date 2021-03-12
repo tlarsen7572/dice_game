@@ -111,3 +111,27 @@ func TestScoreThreeSixes(t *testing.T) {
 		t.Fatalf(`expected score of 600 and scoring dice of [0 1 2] but got %v and %v`, result.Score, result.ScoringDice)
 	}
 }
+
+func TestScoreOneFive(t *testing.T) {
+	roll := []int{5}
+	result := server.Score(roll)
+	if result.Score != 50 || len(result.ScoringDice) != 1 {
+		t.Fatalf(`expected score of 50 and scoring dice of [0] but got %v and %v`, result.Score, result.ScoringDice)
+	}
+}
+
+func TestScoreThreeFives(t *testing.T) {
+	roll := []int{5, 5, 5}
+	result := server.Score(roll)
+	if result.Score != 500 || len(result.ScoringDice) != 3 {
+		t.Fatalf(`expected score of 500 and scoring dice of [0 1 2] but got %v and %v`, result.Score, result.ScoringDice)
+	}
+}
+
+func TestScoreFourFives(t *testing.T) {
+	roll := []int{5, 5, 5, 5}
+	result := server.Score(roll)
+	if result.Score != 550 || len(result.ScoringDice) != 4 {
+		t.Fatalf(`expected score of 550 and scoring dice of [0 1 2 3] but got %v and %v`, result.Score, result.ScoringDice)
+	}
+}
