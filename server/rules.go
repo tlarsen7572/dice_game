@@ -18,5 +18,10 @@ func RollDice(number int) []int {
 }
 
 func Score(roll []int) (int, []int) {
-	return 100, []int{0}
+	for index, die := range roll {
+		if die == 1 {
+			return 100, []int{index}
+		}
+	}
+	return 0, []int{}
 }

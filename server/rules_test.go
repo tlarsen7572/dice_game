@@ -48,10 +48,18 @@ func TestRolledDiceAreSorted(t *testing.T) {
 	}
 }
 
-func TestScoreOnes(t *testing.T) {
+func TestScoreOne(t *testing.T) {
 	roll := []int{1}
 	score, scoringDice := server.Score(roll)
 	if score != 100 || len(scoringDice) != 1 || scoringDice[0] != 0 {
 		t.Fatalf(`expected score of 100 and scoring dice of [0] but got %v and %v`, score, scoringDice)
+	}
+}
+
+func TestScoreOneWithTwoDice(t *testing.T) {
+	roll := []int{2, 1}
+	score, scoringDice := server.Score(roll)
+	if score != 100 || len(scoringDice) != 1 || scoringDice[0] != 1 {
+		t.Fatalf(`expected score of 100 and scoring dice of [1] but got %v and %v`, score, scoringDice)
 	}
 }
