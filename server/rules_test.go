@@ -38,3 +38,20 @@ func TestRolledDiceAreDistributedInRange(t *testing.T) {
 		}
 	}
 }
+
+func TestRolledDiceAreSorted(t *testing.T) {
+	for i := 0; i < 1000; i++ {
+		roll := server.RollDice(2)
+		if roll[0] > roll[1] {
+			t.Fatalf(`roll %v was not sorted in ascending order`, roll)
+		}
+	}
+}
+
+func TestScoreOnes(t *testing.T) {
+	roll := []int{1}
+	score, scoringDice := server.Score(roll)
+	if score != 100 || len(scoringDice) != 1 || scoringDice[0] != 0 {
+		t.Fatalf(`expected score of 100 and scoring dice of [0] but got %v and %v`, score, scoringDice)
+	}
+}

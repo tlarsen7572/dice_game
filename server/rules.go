@@ -2,6 +2,7 @@ package server
 
 import (
 	"math/rand"
+	"sort"
 	"time"
 )
 
@@ -12,5 +13,10 @@ func RollDice(number int) []int {
 	for _, index := range roll {
 		roll[index] = r.Intn(6) + 1
 	}
+	sort.Ints(roll)
 	return roll
+}
+
+func Score(roll []int) (int, []int) {
+	return 100, []int{0}
 }
