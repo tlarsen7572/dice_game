@@ -50,56 +50,56 @@ func TestRolledDiceAreSorted(t *testing.T) {
 
 func TestScoreOne(t *testing.T) {
 	roll := []int{1}
-	score, scoringDice := server.Score(roll)
-	if score != 100 || len(scoringDice) != 1 || scoringDice[0] != 0 {
-		t.Fatalf(`expected score of 100 and scoring dice of [0] but got %v and %v`, score, scoringDice)
+	result := server.Score(roll)
+	if result.Score != 100 || len(result.ScoringDice) != 1 || result.ScoringDice[0] != 0 {
+		t.Fatalf(`expected score of 100 and scoring dice of [0] but got %v and %v`, result.Score, result.ScoringDice)
 	}
 }
 
 func TestScoreOneWithTwoDice(t *testing.T) {
 	roll := []int{2, 1}
-	score, scoringDice := server.Score(roll)
-	if score != 100 || len(scoringDice) != 1 || scoringDice[0] != 1 {
-		t.Fatalf(`expected score of 100 and scoring dice of [1] but got %v and %v`, score, scoringDice)
+	result := server.Score(roll)
+	if result.Score != 100 || len(result.ScoringDice) != 1 || result.ScoringDice[0] != 1 {
+		t.Fatalf(`expected score of 100 and scoring dice of [1] but got %v and %v`, result.Score, result.ScoringDice)
 	}
 }
 
 func TestScoreMultipleOnes(t *testing.T) {
 	roll := []int{1, 1}
-	score, scoringDice := server.Score(roll)
-	if score != 200 || len(scoringDice) != 2 || scoringDice[0] != 0 || scoringDice[1] != 1 {
-		t.Fatalf(`expected score of 200 and scoring dice of [0 1] but got %v and %v`, score, scoringDice)
+	result := server.Score(roll)
+	if result.Score != 200 || len(result.ScoringDice) != 2 || result.ScoringDice[0] != 0 || result.ScoringDice[1] != 1 {
+		t.Fatalf(`expected score of 200 and scoring dice of [0 1] but got %v and %v`, result.Score, result.ScoringDice)
 	}
 }
 
 func TestScoreThreeOnes(t *testing.T) {
 	roll := []int{1, 1, 1}
-	score, scoringDice := server.Score(roll)
-	if score != 1000 || len(scoringDice) != 3 {
-		t.Fatalf(`expected score of 1000 and scoring dice of [0 1 2] but got %v and %v`, score, scoringDice)
+	result := server.Score(roll)
+	if result.Score != 1000 || len(result.ScoringDice) != 3 {
+		t.Fatalf(`expected score of 1000 and scoring dice of [0 1 2] but got %v and %v`, result.Score, result.ScoringDice)
 	}
 }
 
 func TestScoreFourOnes(t *testing.T) {
 	roll := []int{1, 1, 1, 1}
-	score, scoringDice := server.Score(roll)
-	if score != 1100 || len(scoringDice) != 4 {
-		t.Fatalf(`expected score of 1100 and scoring dice of [0 1 2 3] but got %v and %v`, score, scoringDice)
+	result := server.Score(roll)
+	if result.Score != 1100 || len(result.ScoringDice) != 4 {
+		t.Fatalf(`expected score of 1100 and scoring dice of [0 1 2 3] but got %v and %v`, result.Score, result.ScoringDice)
 	}
 }
 
 func TestScoreSixOnes(t *testing.T) {
 	roll := []int{1, 1, 1, 1, 1, 1}
-	score, scoringDice := server.Score(roll)
-	if score != 10000 || len(scoringDice) != 6 {
-		t.Fatalf(`expected score of max int64 and scoring dice of [0 1 2 3 4 5] but got %v and %v`, score, scoringDice)
+	result := server.Score(roll)
+	if result.Score != 10000 || len(result.ScoringDice) != 6 {
+		t.Fatalf(`expected score of max int64 and scoring dice of [0 1 2 3 4 5] but got %v and %v`, result.Score, result.ScoringDice)
 	}
 }
 
 func TestScoreThreeTwos(t *testing.T) {
 	roll := []int{2, 2, 2}
-	score, scoringDice := server.Score(roll)
-	if score != 200 || len(scoringDice) != 3 {
-		t.Fatalf(`expected score of 200 and scoring dice of [0 1 2] but got %v and %v`, score, scoringDice)
+	result := server.Score(roll)
+	if result.Score != 200 || len(result.ScoringDice) != 3 {
+		t.Fatalf(`expected score of 200 and scoring dice of [0 1 2] but got %v and %v`, result.Score, result.ScoringDice)
 	}
 }

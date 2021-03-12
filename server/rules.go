@@ -19,7 +19,12 @@ func RollDice(number int) []int {
 	return roll
 }
 
-func Score(roll []int) (int, []int) {
+type ScoredRoll struct {
+	Score       int
+	ScoringDice []int
+}
+
+func Score(roll []int) ScoredRoll {
 	ones := 0
 	twos := 0
 	score := 0
@@ -38,12 +43,12 @@ func Score(roll []int) (int, []int) {
 		}
 	}
 	if ones == 6 {
-		return longGameScore, scoringDice
+		return ScoredRoll{longGameScore, scoringDice}
 	}
 	setsOfThree := ones / 3
 	onesRemainder := ones % 3
 	score += 1000 * setsOfThree
 	score += onesRemainder * 100
 
-	return score, scoringDice
+	return ScoredRoll{score, scoringDice}
 }
