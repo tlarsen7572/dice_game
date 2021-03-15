@@ -56,6 +56,10 @@ func (m *GameManager) generateActions() {
 	if m.ActiveGame == nil {
 		return
 	}
+	if m.ActiveGame.CurrentScore+m.ActiveGame.ActiveTurn.Score >= m.ActiveGame.WinningScore {
+		m.ActiveGame.NewTurn()
+		return
+	}
 	if len(m.ActiveGame.ActiveTurn.LastRoll) == 0 {
 		m.generateRollAction()
 		return
