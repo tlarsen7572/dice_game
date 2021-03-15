@@ -1,14 +1,14 @@
-package server_test
+package actions_test
 
 import (
 	"encoding/json"
 	"regexp"
-	"server"
+	"server/actions"
 	"testing"
 )
 
 func TestNewGameManager(t *testing.T) {
-	gameManager := server.NewGameManager("http://localhost")
+	gameManager := actions.NewGameManager("http://localhost")
 	if gameManager.ActiveActions.NewGameAction == nil {
 		t.Fatalf(`expected non-nil new game action but got nil`)
 	}
@@ -22,8 +22,8 @@ func TestNewGameManager(t *testing.T) {
 		t.Fatalf(`expected 1 action but got %v`, actions)
 	}
 	for _, action := range gameManager.ActionLinks {
-		if action.Type != server.NewGameAction {
-			t.Fatalf(`expected ActionType %v but got %v`, server.NewGameAction, action.Type)
+		if action.Type != actions.NewGameAction {
+			t.Fatalf(`expected ActionType %v but got %v`, actions.NewGameAction, action.Type)
 		}
 		if action.Method != `POST` {
 			t.Fatalf(`expected POST but got %v`, action.Method)
@@ -40,7 +40,7 @@ func TestNewGameManager(t *testing.T) {
 
 func TestGenerateNewGame(t *testing.T) {
 	t.Skip(`skipping to do some refactoring`)
-	gameManager := server.NewGameManager(`http://localhost`)
+	gameManager := actions.NewGameManager(`http://localhost`)
 	gameManager.ActiveActions.NewGameAction(10000)
 	if gameManager.ActiveGame == nil {
 		t.Fatalf(`expected non-nil game but got nil`)

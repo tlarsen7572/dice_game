@@ -1,12 +1,17 @@
-package server
+package game
+
+import (
+	"server/rules"
+	"server/turn"
+)
 
 func NewGame(winningScore int) *Game {
 	return &Game{
 		WinningScore: winningScore,
 		CurrentScore: 0,
-		Roller:       RollDice,
+		Roller:       rules.RollDice,
 		Turns:        []int{},
-		ActiveTurn: &Turn{
+		ActiveTurn: &turn.Turn{
 			Score:           0,
 			LastRoll:        []int{},
 			LastScoringDice: []int{},
@@ -19,7 +24,7 @@ type Game struct {
 	CurrentScore int
 	Roller       func(int) []int `json:"-"`
 	Turns        []int
-	ActiveTurn   *Turn
+	ActiveTurn   *turn.Turn
 }
 
 func (g *Game) NewTurn() {
@@ -37,6 +42,6 @@ func (g *Game) Roll() {
 
 func (g *Game) createTurnIfNil() {
 	if g.ActiveTurn == nil {
-		g.ActiveTurn = &Turn{}
+		g.ActiveTurn = &turn.Turn{}
 	}
 }

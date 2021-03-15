@@ -1,13 +1,13 @@
-package server_test
+package turn_test
 
 import (
 	"reflect"
-	"server"
+	turn2 "server/turn"
 	"testing"
 )
 
 func TestNormalTurn(t *testing.T) {
-	turn := &server.Turn{}
+	turn := &turn2.Turn{}
 	turn.Roll([]int{1, 2, 2, 3, 3, 4})
 	if turn.Score != 100 {
 		t.Fatalf(`expected 100 but got %v`, turn.Score)
@@ -21,7 +21,7 @@ func TestNormalTurn(t *testing.T) {
 }
 
 func TestScoringZeroReducesTotalScoreToZero(t *testing.T) {
-	turn := &server.Turn{}
+	turn := &turn2.Turn{}
 	turn.Roll([]int{1, 2, 2, 3, 3, 4})
 	turn.Roll([]int{2, 2, 3, 3, 4})
 	if turn.Score != 0 {
@@ -30,7 +30,7 @@ func TestScoringZeroReducesTotalScoreToZero(t *testing.T) {
 }
 
 func TestResetTurn(t *testing.T) {
-	turn := &server.Turn{}
+	turn := &turn2.Turn{}
 	turn.Roll([]int{1, 2, 2, 3, 3, 4})
 	turn.Reset()
 	if turn.Score != 0 {

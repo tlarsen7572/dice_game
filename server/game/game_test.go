@@ -1,8 +1,10 @@
-package server_test
+package game_test
 
 import (
 	"encoding/json"
-	"server"
+	game2 "server/game"
+	"server/rules"
+	"server/turn"
 	"testing"
 )
 
@@ -14,7 +16,7 @@ type MockRoller struct {
 func (r *MockRoller) Roll(totalDice int) []int {
 	r.RequestedDice = totalDice
 	if r.RollOverride == nil {
-		return server.RollDice(totalDice)
+		return rules.RollDice(totalDice)
 	}
 	return r.RollOverride
 }
@@ -23,7 +25,7 @@ func TestGameFirstScoringTurn(t *testing.T) {
 	mockRoller := &MockRoller{
 		RollOverride: []int{1, 2, 2, 3, 3, 4},
 	}
-	game := &server.Game{
+	game := &game2.Game{
 		WinningScore: 10000,
 		Roller:       mockRoller.Roll,
 	}
@@ -41,12 +43,12 @@ func TestGameFirstScoringTurn(t *testing.T) {
 }
 
 func TestGameToJson(t *testing.T) {
-	game := &server.Game{
+	game := &game2.Game{
 		WinningScore: 10000,
 		CurrentScore: 500,
-		Roller:       server.RollDice,
+		Roller:       rules.RollDice,
 		Turns:        []int{100, 200, 0, 200},
-		ActiveTurn: &server.Turn{
+		ActiveTurn: &turn.Turn{
 			Score:           100,
 			LastRoll:        []int{1, 2, 2, 3, 3, 4},
 			LastScoringDice: []int{0},
@@ -61,7 +63,7 @@ func TestGameToJson(t *testing.T) {
 }
 
 func TestNewGameToJson(t *testing.T) {
-	game := server.NewGame(10000)
+	game := game2.NewGame(10000)
 
 	actualJsonBytes, _ := json.Marshal(game)
 	expectedJsonStr := `{"WinningScore":10000,"CurrentScore":0,"Turns":[],"ActiveTurn":{"Score":0,"LastRoll":[],"LastScoringDice":[]}}`

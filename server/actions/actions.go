@@ -1,8 +1,9 @@
-package server
+package actions
 
 import (
 	"fmt"
 	"math/rand"
+	"server/game"
 	"strings"
 	"time"
 )
@@ -41,7 +42,7 @@ type Actions struct {
 }
 
 type GameManager struct {
-	ActiveGame    *Game
+	ActiveGame    *game.Game
 	ActiveActions Actions `json:"-"`
 	ActionLinks   map[int]ActionInfo
 	randGenerator *rand.Rand
@@ -60,7 +61,7 @@ func (m *GameManager) generateActions() {
 func (m *GameManager) generateNewGameAction() {
 	id := m.randGenerator.Int()
 	m.ActiveActions.NewGameAction = func(winningScore int) {
-		m.ActiveGame = NewGame(winningScore)
+		m.ActiveGame = game.NewGame(winningScore)
 		m.generateActions()
 	}
 	m.ActionLinks[id] = ActionInfo{

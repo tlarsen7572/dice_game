@@ -1,4 +1,6 @@
-package server
+package turn
+
+import "server/rules"
 
 type Turn struct {
 	Score           int
@@ -8,7 +10,7 @@ type Turn struct {
 
 func (t *Turn) Roll(roll []int) {
 	t.LastRoll = roll
-	score := Score(roll)
+	score := rules.Score(roll)
 	t.LastScoringDice = score.ScoringDice
 	t.Score += score.Score
 	if score.Score == 0 {
