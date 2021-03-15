@@ -3,26 +3,14 @@ package game_test
 import (
 	"encoding/json"
 	game2 "server/game"
+	"server/mock_roller"
 	"server/rules"
 	"server/turn"
 	"testing"
 )
 
-type MockRoller struct {
-	RollOverride  []int
-	RequestedDice int
-}
-
-func (r *MockRoller) Roll(totalDice int) []int {
-	r.RequestedDice = totalDice
-	if r.RollOverride == nil {
-		return rules.RollDice(totalDice)
-	}
-	return r.RollOverride
-}
-
 func TestGameFirstScoringTurn(t *testing.T) {
-	mockRoller := &MockRoller{
+	mockRoller := &mock_roller.MockRoller{
 		RollOverride: []int{1, 2, 2, 3, 3, 4},
 	}
 	game := &game2.Game{

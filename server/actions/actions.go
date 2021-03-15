@@ -13,7 +13,7 @@ func NewGameManager(baseUrl string) *GameManager {
 	manager := &GameManager{
 		ActiveGame:    nil,
 		ActiveActions: Actions{},
-		ActionLinks:   map[int]ActionInfo{},
+		ActionLinks:   map[ActionType]ActionInfo{},
 		randGenerator: rand.New(rand.NewSource(time.Now().UTC().UnixNano())),
 		baseUrl:       baseUrl,
 	}
@@ -30,7 +30,7 @@ const (
 )
 
 type ActionInfo struct {
-	Type   ActionType
+	Token  int
 	Url    string
 	Method string
 }
@@ -44,18 +44,24 @@ type Actions struct {
 type GameManager struct {
 	ActiveGame    *game.Game
 	ActiveActions Actions `json:"-"`
-	ActionLinks   map[int]ActionInfo
+	ActionLinks   map[ActionType]ActionInfo
 	randGenerator *rand.Rand
 	baseUrl       string
 }
 
 func (m *GameManager) generateActions() {
-	m.ActionLinks = map[int]ActionInfo{}
+	m.ActionLinks = map[ActionType]ActionInfo{}
 	m.ActiveActions = Actions{}
 	m.generateNewGameAction()
 	if m.ActiveGame == nil {
 		return
 	}
+	if len(m.ActiveGame.ActiveTurn.LastRoll) == 0 {
+		m.generateRollAction()
+		return
+	}
+	m.generateRollAction()
+	m.generateNewTurnAction()
 }
 
 func (m *GameManager) generateNewGameAction() {
@@ -64,9 +70,35 @@ func (m *GameManager) generateNewGameAction() {
 		m.ActiveGame = game.NewGame(winningScore)
 		m.generateActions()
 	}
-	m.ActionLinks[id] = ActionInfo{
-		Type:   NewGameAction,
-		Url:    fmt.Sprintf(`%v/%v?winningScore={WinningScore}`, m.baseUrl, id),
+	m.ActionLinks[NewGameAction] = ActionInfo{
+		Token:  id,
+		Url:    fmt.Sprintf(`%v/NewGame?token=%v&winningScore={WinningScore}`, m.baseUrl, id),
+		Method: "POST",
+	}
+}
+
+func (m *GameManager) generateRollAction() {
+	id := m.randGenerator.Int()
+	m.ActiveActions.RollAction = func() {
+		m.ActiveGame.Roll()
+		m.generateActions()
+	}
+	m.ActionLinks[RollAction] = ActionInfo{
+		Token:  id,
+		Url:    fmt.Sprintf(`%v/Roll?token=%v`, m.baseUrl, id),
+		Method: "POST",
+	}
+}
+
+func (m *GameManager) generateNewTurnAction() {
+	id := m.randGenerator.Int()
+	m.ActiveActions.NewTurnAction = func() {
+		m.ActiveGame.NewTurn()
+		m.generateActions()
+	}
+	m.ActionLinks[NewTurnAction] = ActionInfo{
+		Token:  id,
+		Url:    fmt.Sprintf(`%v/NewTurn?token=%v`, m.baseUrl, id),
 		Method: "POST",
 	}
 }
