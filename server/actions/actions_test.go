@@ -107,3 +107,44 @@ func TestRollGame(t *testing.T) {
 	jsonBytes, _ := json.Marshal(gameManager)
 	t.Logf(string(jsonBytes))
 }
+
+func TestNoRollActionIfLastRollIsZero(t *testing.T) {
+	gameManager := actions.NewGameManager(`http://localhost`)
+	gameManager.ActiveActions.NewGameAction(10000)
+	mockRoll := mock_roller.MockRoller{
+		RollOverride: []int{2},
+	}
+	gameManager.ActiveGame.Roller = mockRoll.Roll
+	gameManager.ActiveActions.RollAction()
+
+	if gameManager.ActiveActions.NewTurnAction == nil {
+		t.Fatalf(`expected non-nil turn action but got nil`)
+	}
+	if gameManager.ActiveActions.RollAction != nil {
+		t.Fatalf(`expected nil roll action but got non-nil`)
+	}
+}
+
+func TestRollAndStartNewTurnScore(t *testing.T) {
+	gameManager := actions.NewGameManager(`http://localhost`)
+	gameManager.ActiveActions.NewGameAction(10000)
+	mockRoll := mock_roller.MockRoller{
+		RollOverride: []int{1, 2, 2, 3, 3, 4},
+	}
+	gameManager.ActiveGame.Roller = mockRoll.Roll
+	gameManager.ActiveActions.RollAction()
+	gameManager.ActiveActions.NewTurnAction()
+
+	if gameManager.ActiveActions.NewTurnAction != nil {
+		t.Fatalf(`expected nil turn action but got non-nil`)
+	}
+	if gameManager.ActiveActions.RollAction == nil {
+		t.Fatalf(`expected non-nil roll action but got non-nil`)
+	}
+	if gameManager.ActiveGame.CurrentScore != 100 {
+		t.Fatalf(`expected score of 100 but got %v`, gameManager.ActiveGame.CurrentScore)
+	}
+	if totalTurns := len(gameManager.ActiveGame.Turns); totalTurns != 1 {
+		t.Fatalf(`expected 1 turn but got %v`, totalTurns)
+	}
+}

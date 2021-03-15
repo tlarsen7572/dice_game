@@ -60,6 +60,10 @@ func (m *GameManager) generateActions() {
 		m.generateRollAction()
 		return
 	}
+	if len(m.ActiveGame.ActiveTurn.LastRoll) > 0 && m.ActiveGame.ActiveTurn.Score == 0 {
+		m.generateNewTurnAction()
+		return
+	}
 	m.generateRollAction()
 	m.generateNewTurnAction()
 }
