@@ -4,6 +4,20 @@ import (
 	"encoding/json"
 )
 
+func NewGame(winningScore int) *Game {
+	return &Game{
+		WinningScore: winningScore,
+		CurrentScore: 0,
+		Roller:       RollDice,
+		Turns:        []int{},
+		ActiveTurn: &Turn{
+			Score:           0,
+			LastRoll:        []int{},
+			LastScoringDice: []int{},
+		},
+	}
+}
+
 type Game struct {
 	WinningScore int
 	CurrentScore int

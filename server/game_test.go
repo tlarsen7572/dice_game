@@ -58,3 +58,13 @@ func TestGameToJson(t *testing.T) {
 		t.Fatalf("expected\n'%v'\nbut got\n'%v'", expectedJsonStr, actualJsonStr)
 	}
 }
+
+func TestNewGameToJson(t *testing.T) {
+	game := server.NewGame(10000)
+
+	actualJsonStr := game.ToJson()
+	expectedJsonStr := `{"WinningScore":10000,"CurrentScore":0,"Turns":[],"ActiveTurn":{"Score":0,"LastRoll":[],"LastScoringDice":[]}}`
+	if actualJsonStr != expectedJsonStr {
+		t.Fatalf("expected\n'%v'\nbut got\n'%v'", expectedJsonStr, actualJsonStr)
+	}
+}
