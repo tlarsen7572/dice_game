@@ -57,7 +57,6 @@ func (m *GameManager) generateActions() {
 		return
 	}
 	if m.ActiveGame.CurrentScore+m.ActiveGame.ActiveTurn.Score >= m.ActiveGame.WinningScore {
-		m.ActiveGame.NewTurn()
 		return
 	}
 	if len(m.ActiveGame.ActiveTurn.LastRoll) == 0 {
