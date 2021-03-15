@@ -1,9 +1,5 @@
 package server
 
-import (
-	"encoding/json"
-)
-
 func NewGame(winningScore int) *Game {
 	return &Game{
 		WinningScore: winningScore,
@@ -43,12 +39,4 @@ func (g *Game) createTurnIfNil() {
 	if g.ActiveTurn == nil {
 		g.ActiveTurn = &Turn{}
 	}
-}
-
-func (g *Game) ToJson() string {
-	jsonBytes, err := json.Marshal(g)
-	if err != nil {
-		return err.Error()
-	}
-	return string(jsonBytes)
 }

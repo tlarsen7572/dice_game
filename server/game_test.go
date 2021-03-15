@@ -1,6 +1,7 @@
 package server_test
 
 import (
+	"encoding/json"
 	"server"
 	"testing"
 )
@@ -52,9 +53,9 @@ func TestGameToJson(t *testing.T) {
 		},
 	}
 
-	actualJsonStr := game.ToJson()
+	actualJsonBytes, _ := json.Marshal(game)
 	expectedJsonStr := `{"WinningScore":10000,"CurrentScore":500,"Turns":[100,200,0,200],"ActiveTurn":{"Score":100,"LastRoll":[1,2,2,3,3,4],"LastScoringDice":[0]}}`
-	if actualJsonStr != expectedJsonStr {
+	if actualJsonStr := string(actualJsonBytes); actualJsonStr != expectedJsonStr {
 		t.Fatalf("expected\n'%v'\nbut got\n'%v'", expectedJsonStr, actualJsonStr)
 	}
 }
@@ -62,9 +63,9 @@ func TestGameToJson(t *testing.T) {
 func TestNewGameToJson(t *testing.T) {
 	game := server.NewGame(10000)
 
-	actualJsonStr := game.ToJson()
+	actualJsonBytes, _ := json.Marshal(game)
 	expectedJsonStr := `{"WinningScore":10000,"CurrentScore":0,"Turns":[],"ActiveTurn":{"Score":0,"LastRoll":[],"LastScoringDice":[]}}`
-	if actualJsonStr != expectedJsonStr {
+	if actualJsonStr := string(actualJsonBytes); actualJsonStr != expectedJsonStr {
 		t.Fatalf("expected\n'%v'\nbut got\n'%v'", expectedJsonStr, actualJsonStr)
 	}
 }
