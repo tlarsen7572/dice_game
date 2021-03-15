@@ -52,8 +52,8 @@ type GameManager struct {
 func (m *GameManager) generateActions() {
 	m.ActionLinks = map[int]ActionInfo{}
 	m.ActiveActions = Actions{}
+	m.generateNewGameAction()
 	if m.ActiveGame == nil {
-		m.generateNewGameAction()
 		return
 	}
 }

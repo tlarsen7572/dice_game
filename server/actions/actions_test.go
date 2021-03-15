@@ -18,8 +18,8 @@ func TestNewGameManager(t *testing.T) {
 	if gameManager.ActiveActions.NewTurnAction != nil {
 		t.Fatalf(`expected nil turn action but got non-nil`)
 	}
-	if actions := len(gameManager.ActionLinks); actions != 1 {
-		t.Fatalf(`expected 1 action but got %v`, actions)
+	if totalActions := len(gameManager.ActionLinks); totalActions != 1 {
+		t.Fatalf(`expected 1 action but got %v`, totalActions)
 	}
 	for _, action := range gameManager.ActionLinks {
 		if action.Type != actions.NewGameAction {
