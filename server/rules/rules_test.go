@@ -39,6 +39,22 @@ func TestRolledDiceAreDistributedInRange(t *testing.T) {
 	}
 }
 
+func TestMultipleRolledDiceAreDistributedInRange(t *testing.T) {
+	results := make([]int, 6)
+	for i := 0; i < 10000; i++ {
+		roll := rules.RollDice(6)
+		for _, die := range roll {
+			results[die-1]++
+		}
+	}
+	t.Logf(`results: %v`, results)
+	for diceNumber, actualCount := range results {
+		if actualCount < 9000 || actualCount > 11000 {
+			t.Fatalf(`an unexpected number of %vs were rolled. Expected between 9000 and 11000 but got %v`, diceNumber+1, actualCount)
+		}
+	}
+}
+
 func TestRolledDiceAreSorted(t *testing.T) {
 	for i := 0; i < 1000; i++ {
 		roll := rules.RollDice(2)

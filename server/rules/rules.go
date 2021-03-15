@@ -9,7 +9,7 @@ import (
 
 func RollDice(number int) []int {
 	roll := make([]int, number)
-	for _, index := range roll {
+	for index := range roll {
 		roll[index] = r.Intn(6) + 1
 	}
 	sort.Ints(roll)
