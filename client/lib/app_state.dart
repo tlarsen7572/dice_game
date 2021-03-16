@@ -19,6 +19,14 @@ class AppState extends BlocState {
 
   void notifyNewResponse(Response response) {
     _error.add(response.error);
+    if (response.gameState == null) {
+      _actions.add(null);
+      _game.add(null);
+      _turns.add(null);
+      _currentTurn.add(null);
+      return;
+    }
+
     _actions.add(response.gameState.actionLinks);
     var game = response.gameState.activeGame;
     _game.add(game);
