@@ -35,7 +35,11 @@ func (g *Game) NewTurn() {
 
 func (g *Game) Roll() {
 	g.createTurnIfNil()
-	diceToRoll := 6 - len(g.ActiveTurn.LastRoll)
+	diceToRoll := len(g.ActiveTurn.LastRoll)
+	if diceToRoll == 0 {
+		diceToRoll = 6
+	}
+	diceToRoll = diceToRoll - len(g.ActiveTurn.LastScoringDice)
 	roll := g.Roller(diceToRoll)
 	g.ActiveTurn.Roll(roll)
 }

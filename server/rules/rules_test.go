@@ -184,3 +184,10 @@ func TestRandomRolls(t *testing.T) {
 		t.Fatalf(`expected score of 700 and scoring dice of [0 3 4 5] but got %v and %v`, result.Score, result.ScoringDice)
 	}
 }
+
+func TestNonScoringRoll(t *testing.T) {
+	result := rules.Score([]int{2, 3, 4})
+	if result.ScoringDice == nil {
+		t.Fatalf(`expected non-nil scoring dice but got nil`)
+	}
+}

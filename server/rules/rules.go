@@ -17,7 +17,7 @@ func RollDice(number int) []int {
 }
 
 func Score(roll []int) ScoredRoll {
-	calculator := &scoreCalculator{DiceValues: map[int]int{}}
+	calculator := &scoreCalculator{DiceValues: map[int]int{}, ScoringDice: []int{}}
 	calculator.calculateDice(roll)
 	return calculator.scoredRoll()
 }
