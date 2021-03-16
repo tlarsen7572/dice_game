@@ -35,7 +35,7 @@ class GameWidgets extends StatelessWidget {
           ),
         ),
         SizedBox(
-          width: 100,
+          width: 200,
           child: Column(
             children: [
               ScoreTitle(),
@@ -177,8 +177,12 @@ class NewTurnButton extends StatelessWidget {
         if (actions.newTurnLink == null) {
           return Container();
         }
+        var text = "Bank score";
+        if (actions.rollLink == null) {
+          text = "New turn";
+        }
         return ElevatedButton(
-          child: Text("Bank score", style: TextStyle(fontSize: 20)),
+          child: Text(text, style: TextStyle(fontSize: 20)),
           onPressed: ()=>appState.sendAction(actions.newTurnLink.url),
         );
       },
