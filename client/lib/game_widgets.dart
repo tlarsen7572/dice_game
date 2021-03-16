@@ -31,12 +31,14 @@ class GameWidgets extends StatelessWidget {
                   ),
                 ],
               ),
+              VictoryMessage(),
             ],
           ),
         ),
         SizedBox(
           width: 200,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               ScoreTitle(),
               SizedBox(height: 10),
@@ -60,7 +62,7 @@ class ScoreTitle extends StatelessWidget {
         if (game.hasData && game.data != null) {
           var totalScore = game.data.currentScore;
           var winningScore = game.data.winningScore;
-          return Text("$totalScore/$winningScore", style: TextStyle(fontSize: 20));
+          return Text("$totalScore/$winningScore", style: TextStyle(fontSize: 20), textAlign: TextAlign.right);
         }
         return Container();
       },
@@ -185,6 +187,28 @@ class NewTurnButton extends StatelessWidget {
           child: Text(text, style: TextStyle(fontSize: 20)),
           onPressed: ()=>appState.sendAction(actions.newTurnLink.url),
         );
+      },
+    );
+  }
+}
+
+class VictoryMessage extends StatelessWidget {
+  Widget build(BuildContext context) {
+    var appState = BlocProvider.of<AppState>(context);
+    return StreamBuilder<r.Game>(
+      stream: appState.game,
+      builder: (_, snapshot) {
+        if (!snapshot.hasData || snapshot.data == null) {
+          return Container();
+        }
+        var game = snapshot.data;
+        if (game.activeTurn == null) {
+          return Container();
+        }
+        if (game.currentScore + game.activeTurn.score >= game.winningScore) {
+          return Text("You win!!!", style: TextStyle(fontSize: 30));
+        }
+        return Container();
       },
     );
   }
