@@ -25,3 +25,15 @@ Found some time tonight to work on the scoring algorithm. Started with handling 
 ### March 12
 
 Spent about an hour wrapping up the scoring logic. All of my tests pass and I cannot think of any further edge cases at this time. Next up will be coding the turn logic, which should mean building up a game state object. The game object should only concern itself with turns. I want to keep the REST API logic completely separate, which means generating the self-discovery URLs will be separated out from the game.
+
+### March 14
+
+Struggled to get the game-level logic started. I ended up putting too much into the Game object and finally realized there was a Turn object wanting to be separately defined. Once I pulled out the turn logic into its own struct, Game and Turn started making more sense. I also made the mistake of trying to incorporate some of the API design ideas into these classes, which really muddied things up. The API should depend on the game and turn, not the other way around.
+
+### March 15
+
+I finally got some time to focus on this project, rather than a few minutes here and there as in prior days. The web server is wrapped up and an initial working version is completed. I started building a basic UI in Flutter, because why build a REST API and not have something fun to test it with? The REST API is designed to always return the full game state in a JSON payload, so the UI in Flutter should essentially boil down to a bunch of StreamBuilders that update when a core state object is updated with new JSON. There should be very little logic in the UI. I did not get as far as I wanted with the UI, but am hoping to wrap it up early tomorrow.
+
+### March 16
+
+Success! The UI is finished and in a working state. This was a useful exercise because the UI quickly identified 2 errors with my server code that I was able to put tests around and fix. Sometimes there is no substitute for seeing the output of your server logic visually. The dice game is PoC finished at this point.
