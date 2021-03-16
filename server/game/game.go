@@ -40,6 +40,9 @@ func (g *Game) Roll() {
 		diceToRoll = 6
 	}
 	diceToRoll = diceToRoll - len(g.ActiveTurn.LastScoringDice)
+	if len(g.ActiveTurn.LastScoringDice) == len(g.ActiveTurn.LastRoll) {
+		diceToRoll = 6
+	}
 	roll := g.Roller(diceToRoll)
 	g.ActiveTurn.Roll(roll)
 }

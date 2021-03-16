@@ -70,3 +70,19 @@ func TestGameRollTwice(t *testing.T) {
 		t.Fatalf(`expected %v but got %v`, expectedRolledDice, actualRolledDice)
 	}
 }
+
+func TestScoreAllDice(t *testing.T) {
+	mockRoller := &mock_roller.MockRoller{
+		RollOverride: []int{1, 1, 2, 2, 3, 3},
+	}
+	testGame := &game.Game{
+		WinningScore: 10000,
+		Roller:       mockRoller.Roll,
+	}
+	testGame.Roll()
+	testGame.Roller = rules.RollDice
+	testGame.Roll()
+	if totalDice := len(testGame.ActiveTurn.LastRoll); totalDice != 6 {
+		t.Fatalf(`expected 6 dice rolled but got %v`, totalDice)
+	}
+}
