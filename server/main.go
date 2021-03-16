@@ -7,8 +7,10 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"path/filepath"
 	"server/actions"
 	"strconv"
+	"strings"
 	"sync"
 )
 
@@ -32,14 +34,55 @@ func main() {
 		log.Printf(err.Error())
 	}
 
-	manager = actions.NewGameManager(config.BaseUrl)
+	manager = actions.NewGameManager(`http://` + config.BaseUrl)
 
+	http.HandleFunc("/", handleHome)
+	http.HandleFunc("/main.dart.js", handleFile)
+	http.HandleFunc("/manifest.json", handleFile)
+	http.HandleFunc("/favicon.png", handleFile)
+	http.HandleFunc("/assets/", handleAsset)
 	http.HandleFunc("/GameStatus", handleGameStatus)
 	http.HandleFunc("/NewGame", handleNewGame)
 	http.HandleFunc("/Roll", handleRoll)
 	http.HandleFunc("/NewTurn", handleNewTurn)
 	log.Printf("listening on %v", config.BaseUrl)
 	log.Println(http.ListenAndServe(config.BaseUrl, nil))
+}
+
+func handleHome(w http.ResponseWriter, r *http.Request) {
+	path := r.URL.Path
+	if path == `/` || path == `/#/` {
+		htmlBytes, err := ioutil.ReadFile(`index.html`)
+		if err != nil {
+			_, _ = w.Write(generateResponse(err.Error()))
+			return
+		}
+		_, _ = w.Write(htmlBytes)
+		return
+	}
+	_, _ = w.Write([]byte(`error`))
+}
+
+func handleFile(w http.ResponseWriter, r *http.Request) {
+	path := r.URL.Path[1:]
+	fileBytes, err := ioutil.ReadFile(path)
+	if err != nil {
+		_, _ = w.Write(generateResponse(err.Error()))
+		return
+	}
+	_, _ = w.Write(fileBytes)
+}
+
+func handleAsset(w http.ResponseWriter, r *http.Request) {
+	path := r.URL.Path[1:]
+	pathElements := strings.Split(path, `/`)
+	path = filepath.Join(pathElements...)
+	fileBytes, err := ioutil.ReadFile(path)
+	if err != nil {
+		_, _ = w.Write(generateResponse(err.Error()))
+		return
+	}
+	_, _ = w.Write(fileBytes)
 }
 
 func handleGameStatus(w http.ResponseWriter, r *http.Request) {
